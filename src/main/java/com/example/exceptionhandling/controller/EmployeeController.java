@@ -22,22 +22,11 @@ public class EmployeeController {
 
     @PostMapping("/save")
     public ResponseEntity<?> savetoDB(@RequestBody Employee employee) {
-        try {
             Employee employee1 = employeeServiceInter.addEmployee(employee);
             return new ResponseEntity<>(employee1, HttpStatus.CREATED);
-        }
-        catch (BusinessException e){
-            ControllerException ce = new ControllerException(e.getErrorCode(),e.getErrorMessage());
-            return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e){
-            ControllerException ce = new ControllerException("612","Something went wrong in controller");
-            return  new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
-        }
+
+
     }
-
-
-
 
 
     @GetMapping("/all")
@@ -50,18 +39,9 @@ public class EmployeeController {
 
     @GetMapping("/all/{id}")
     public ResponseEntity<?> getByID(@PathVariable int id) {
-        try {
             Employee employee = employeeServiceInter.getById(id);
             return new ResponseEntity<>(employee, HttpStatus.OK);
-        }
-        catch (BusinessException e){
-            ControllerException ce = new ControllerException(e.getErrorCode(),e.getErrorMessage());
-            return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e){
-            ControllerException ce = new ControllerException("612","Something went wrong in controller");
-            return  new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
-        }
+
     }
 
 
