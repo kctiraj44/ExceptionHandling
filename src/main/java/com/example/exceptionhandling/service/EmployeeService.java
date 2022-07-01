@@ -1,6 +1,7 @@
 package com.example.exceptionhandling.service;
 
 import com.example.exceptionhandling.CustomException.BusinessException;
+import com.example.exceptionhandling.CustomException.EmptyInputException;
 import com.example.exceptionhandling.Repository.EmployeeRepository;
 import com.example.exceptionhandling.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,10 @@ public class EmployeeService implements EmployeeServiceInter {
     public Employee addEmployee(Employee employee) {
 
             if(employee.getName().isEmpty() || employee.getName().length()==0){
-                throw new BusinessException("601","Please Send Proper name,Its Blank");
-            }  try {
+                throw new EmptyInputException("601","Please Send Proper name,Its Blank");
+            }
             Employee employee1 = repository.save(employee);
             return employee1;
-        }catch (Exception ex)
-        {
-            throw new BusinessException("602","Something went wrong in service layer while saving"+ex.getMessage());
-        }
 
     }
 
@@ -59,17 +56,11 @@ public class EmployeeService implements EmployeeServiceInter {
 
     @Override
     public Employee getById(int id) {
-        try {
+
             Employee employee = repository.findById(id).get();
             return employee;
-        }
-        catch (IllegalArgumentException e){
-            throw new BusinessException("607","Emplyee is not available "+e.getMessage());
-        }
 
-        catch (NoSuchElementException ex){
-            throw new BusinessException("606","EMPLOYEE IS null"+ex.getMessage());
-        }
+
 
     }
 
