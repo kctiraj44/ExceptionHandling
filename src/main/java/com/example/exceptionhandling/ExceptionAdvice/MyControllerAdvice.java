@@ -8,6 +8,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.xml.ws.Response;
@@ -17,7 +18,7 @@ import java.util.NoSuchElementException;
 public class MyControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmptyInputException.class)
-    public ResponseEntity<String> handleExp1(EmptyInputException ex){
+    public ResponseEntity<String> handleExp1(EmptyInputException ex,WebRequest request){
         return  new ResponseEntity<>("Input field is empty", HttpStatus.BAD_REQUEST);
     }
 
@@ -29,5 +30,11 @@ public class MyControllerAdvice extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return new ResponseEntity<>("*----Please change Http ----*",HttpStatus.BAD_GATEWAY);
+    }
+
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return new ResponseEntity<>("No handle found",HttpStatus.NOT_FOUND);
     }
 }
